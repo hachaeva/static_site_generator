@@ -1,5 +1,7 @@
+from src/textnode.py import all 
+
 def main():
-    print("Hello from static-site-generator!")
+    TextNode("This is some anchor text", TextType.LINK, "https://www.boot.dev")
 
 
 if __name__ == "__main__":
