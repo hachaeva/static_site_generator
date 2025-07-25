@@ -40,6 +40,30 @@ def extract_markdown_images(text):
 def extract_markdown_links(text):
     return re.findall(r".*?\[(\w+)\]\((.*?)\)", text)
 
+def split_nodes_image(old_nodes):
+    new_nodes = []
+    for node in old_nodes:
+        if isinstance(node,TextNode):
+            images = extract_markdown_images(node.text)
+            text_strings = re.split(r"!\[(\w+)\]\((.*?)\)")
+            for i in range(len(text_strings)):
+                if len(text_strings[i]) > 0:
+                    new_nodes.append(TextNode(text_strings[i]))
+                if i < len(images):
+                    new_nodes.append(TextNode(images[i][0], TextType.IMAGE, images[i][1]))
+                
+def split_nodes_link(old_nodes):
+    new_nodes = []
+    for node in old_nodes:
+        if isinstance(node,TextNode):
+            links = extract_markdown_links(node.text)
+            text_strings = re.split(r"\[(\w+)\]\((.*?)\)")
+            for i in range(len(text_strings)):
+                if len(text_strings[i]) > 0:
+                    new_nodes.append(TextNode(text_strings[i]))
+                if i < len(links):
+                    new_nodes.append(TextNode(links[i][0], TextType.LINK, links[i][1]))
+
 if __name__ == "__main__":
     main()
 
