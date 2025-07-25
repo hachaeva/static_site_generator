@@ -1,5 +1,6 @@
 from textnode import TextType, TextNode
 from htmlnode import HTMLNode, LeafNode, ParentNode
+import re
 
 def main():
     node = TextNode("This is some anchor text", TextType.LINK, "https://www.boot.dev")
@@ -32,6 +33,12 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
             new_nodes.append(TextNode(text_strings[1]), delimiter_dict[delimiter])
             new_nodes.append(TextNode(text_strings[2]), TextType.Text)
         else: new_nodes.append(node)
+
+def extract_markdown_images(text):
+    return re.findall(r".*?!\[(\w+)\]\((.*?)\)", text) 
+
+def extract_markdown_links(text):
+    return re.findall(r".*?\[(\w+)\]\((.*?)\)", text)
 
 if __name__ == "__main__":
     main()
