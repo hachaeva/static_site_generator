@@ -1,8 +1,8 @@
 import unittest
 
-from htmlnode import HTMLNode
-from htmlnode import LeafNode
-from htmlnode import ParentNode
+from htmlnode import HTMLNode, LeafNode, ParentNode
+from textnode import TextNode, TextType
+from main import text_node_to_html_node
 class TestTextNode(unittest.TestCase):
     def test_eq(self):
         node = HTMLNode(tag="p", value="This is a text node")
@@ -36,10 +36,17 @@ class TestTextNode(unittest.TestCase):
         child_node = LeafNode("span", "child")
         parent_node = ParentNode("div", [child_node])
         self.assertEqual(parent_node.to_html(), "<div><span>child</span></div>")
+
     def test_to_html_with_children(self):
         child_node = LeafNode("span", "child")
         parent_node = ParentNode("div", [child_node])
         self.assertEqual(parent_node.to_html(), "<div><span>child</span></div>")
+
+def test_text(self):
+    node = TextNode("This is a text node", TextType.TEXT)
+    html_node = text_node_to_html_node(node)
+    self.assertEqual(html_node.tag, None)
+    self.assertEqual(html_node.value, "This is a text node")
 
 if __name__ == "__main__":
     unittest.main()
